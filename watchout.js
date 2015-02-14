@@ -79,6 +79,8 @@ var collision = function(player, enemy){
   return counter;
 };
 
+
+
 var detectCollisions = function(enemies){
   var collisions = 0;
   for(var i = 0; i < enemies.length; i++){
@@ -89,19 +91,26 @@ var detectCollisions = function(enemies){
 
 var totalCollisions = 0;
 
+var startTime = +new Date();
+var currentScore = 0;
+var highScore = 0;
+
 setInterval(function(){
   var enemies = d3.selectAll("circle.enemies");
+  if(detectCollisions(enemies[0])){
+    if(currentScore > highScore){
+      highScore = currentScore;
+      d3.select(".high").text("High score: "+ highScore);
+    }
+    d3.select(".current").text("Current score: 0");
+    startTime = +new Date();
+  }
   console.log(detectCollisions(enemies[0]));
 },1);
 
 setInterval(function() {
-  d3.select(".collisions").text("Collisions: " + totalCollisions);
+  var currentTime = +new Date();
+  currentScore = Math.floor((currentTime - startTime)/100);
+  d3.select(".current").text("Current score: " + currentScore);
 },100);
-
-
-
-
-
-
-
 
