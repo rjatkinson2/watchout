@@ -54,16 +54,16 @@ var playerPiece = d3.select("svg").selectAll("circle.player").data(playerData).e
 
 // Enemy update
 var update = function(data) {
-  d3.selectAll("circle.enemies").data(data).transition().duration(2000).attr("cx",function(d){return d.xAxis;})
+  d3.selectAll("circle.enemies").data(data).transition().duration(1000).attr("cx",function(d){return d.xAxis;})
     .attr("cy",function(d){return d.yAxis;})
     .attr("r",function(d){return d.size;});
 };
 
 // Trigger enemy update
-setTimeout(function() {
+setInterval(function() {
   enemies = createEnemies(50,10,700,700);
   return update(enemies);
-}, 2000);
+}, 1000);
 
 var collision = function(player, enemy){
   var distance = Math.sqrt(Math.pow((enemy.xAxis - player.xAxis),2) + Math.pow((enemy.yAxis - player.yAxis),2));
@@ -73,4 +73,17 @@ var collision = function(player, enemy){
   }
   return counter;
 };
+
+var detectCollisions = function(enemies){
+  var collisions = 0;
+  for(var i = 0; i < enemies.length; i++){
+    collisions += collision(player, enemies[i]);
+  }
+  return collisions;
+};
+
+setInterval(function(){
+  var enemies = d3.selectAll("circle.enemies").data();
+  console.log(detectCollisions(enemies));
+},1);
 
