@@ -30,7 +30,9 @@ var enemyDisplay = d3.select("svg").selectAll("circle").data(enemies).enter()
 
 
 var dragmove = function() {
-  d3.select(this).attr("cx", d3.event.x).attr("cy", d3.event.y);
+  if (d3.event.x < 680 && d3.event.y < 680 && d3.event.x > 20 && d3.event.y > 20) {
+    d3.select(this).attr("cx", d3.event.x).attr("cy", d3.event.y);
+  }
 };
 
 var drag = d3.behavior.drag()
